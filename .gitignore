@@ -4,5 +4,9 @@ node_modules
 dist
 coverage
 *.log
+*.err
+*.tsbuildinfo
+.next-dev*
+.next-start*
 .env.local
 .env
