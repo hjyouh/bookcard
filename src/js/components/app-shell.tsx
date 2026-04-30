@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -252,7 +253,18 @@ export function AppShell({ children }: PropsWithChildren) {
             className="inline-flex h-11 w-11 items-center justify-center text-[1.5rem] text-ink"
             aria-label={isEditorPage ? "뒤로가기" : "메뉴 열기"}
           >
-            {isEditorPage ? "←" : "≡"}
+            {isEditorPage ? (
+              "←"
+            ) : (
+              <Image
+                src="/assets/icons/menu-white.png"
+                alt="메뉴"
+                width={18}
+                height={18}
+                className="h-[18px] w-[18px] object-contain"
+                priority
+              />
+            )}
           </Link>
 
           <button
