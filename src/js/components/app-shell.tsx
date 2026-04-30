@@ -41,7 +41,13 @@ export function AppShell({ children }: PropsWithChildren) {
   const isOfflinePage = pathname === "/offline";
   const isMembersPage = pathname === "/members";
   const isMinePage = pathname === "/mine";
-  const headerTitle = isOfflinePage ? "오프라인 독서카드" : APP_NAME;
+  const headerTitle = isMembersPage
+    ? "멤버관리"
+    : isOfflinePage
+      ? "오프라인카드"
+      : isMinePage
+        ? "내 독서카드"
+        : "독서카드";
 
   useEffect(() => {
     setSelectedTheme(getStoredCardTheme());
@@ -259,7 +265,7 @@ export function AppShell({ children }: PropsWithChildren) {
             className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center"
             aria-label="온라인 홈으로 이동"
           >
-            <h1 className="text-2xl font-semibold tracking-tight">{headerTitle}</h1>
+            <h1 className="text-[20px] font-semibold tracking-tight">{headerTitle}</h1>
           </button>
 
           <div className="flex items-center gap-2">

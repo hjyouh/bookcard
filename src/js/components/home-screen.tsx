@@ -85,8 +85,8 @@ export function HomeScreen({ mode = "home" }: { mode?: "home" | "offline" | "min
       ) : null}
 
       {mode === "home" || mode === "mine" ? (
-        <section className="px-1 pt-[5px]">
-          <div className="grid grid-cols-3 overflow-hidden rounded-full border border-line bg-surface">
+        <section className="px-1 pt-[15px]">
+          <div className="mx-auto grid w-[315px] grid-cols-3 overflow-hidden rounded-full border border-line bg-surface">
             {segments.map((item) => {
               const active = item.value === segment;
               return (
@@ -94,7 +94,7 @@ export function HomeScreen({ mode = "home" }: { mode?: "home" | "offline" | "min
                   key={item.value}
                   type="button"
                   onClick={() => setSegment(item.value)}
-                  className={`px-2 py-1.5 text-sm font-semibold transition ${
+                  className={`px-2 py-1.5 text-[13px] font-semibold transition ${
                     active ? "bg-[#23252c] text-ink" : "bg-transparent text-muted"
                   }`}
                   style={{
