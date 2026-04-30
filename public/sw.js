@@ -1,4 +1,4 @@
-const CACHE_NAME = "reading-cards-shell-v2";
+const CACHE_NAME = "reading-cards-shell-v3";
 const APP_SHELL = ["/", "/offline", "/search", "/settings", "/manifest.webmanifest", "/assets/icons/icon-192.svg", "/assets/icons/icon-512.svg", "/assets/icons/apple-touch-icon.svg"];
 
 self.addEventListener("install", (event) => {
@@ -14,6 +14,12 @@ self.addEventListener("activate", (event) => {
       .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
       .then(() => self.clients.claim()),
   );
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener("fetch", (event) => {
@@ -46,11 +52,7 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     caches.match(request).then((cached) => {
-      if (cached) {
-        return cached;
-      }
-
-      return fetch(request)
+      const networkFetch = fetch(request)
         .then((response) => {
           if (response.ok) {
             const copy = response.clone();
@@ -59,7 +61,14 @@ self.addEventListener("fetch", (event) => {
 
           return response;
         })
-        .catch(() => caches.match("/offline"));
+        .catch(() => cached || caches.match("/offline"));
+
+      if (cached) {
+        event.waitUntil(networkFetch);
+        return cached;
+      }
+
+      return networkFetch;
     }),
   );
 });
